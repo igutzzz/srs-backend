@@ -25,17 +25,18 @@ server.register(fastifyFormbody);
 
 //Register routes
 const routes = [
-  { plugin: userRoutes },
-  { plugin: teacherRoutes },
-  { plugin: studentRoutes },
-  { plugin: schoolRoutes },
-  { plugin: reservationRoutes },
-  { plugin: courseRoutes },
-  { plugin: classroomRoutes },
-  { plugin: classRoutes },
+  userRoutes,
+  teacherRoutes,
+  studentRoutes,
+  schoolRoutes,
+  reservationRoutes,
+  courseRoutes,
+  classroomRoutes,
+  classRoutes,
 ];
-
-server.register(routes);
+routes.forEach((route) => {
+  server.register(route);
+});
 
 server.listen({
   port: process.env.PORT || 3200,

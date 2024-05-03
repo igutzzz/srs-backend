@@ -7,7 +7,7 @@ import {
 } from "../controllers/schoolController.js";
 
 export default async function schoolRoutes(server) {
-  server.get("/", getSchools);
+  server.get("/schools", getSchools);
   server.get("/school/:params", getSchool);
   server.post("/school", postSchool);
   server.put("/school/:params", updateSchool);

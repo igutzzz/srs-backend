@@ -7,7 +7,7 @@ import {
 } from "../controllers/reservationController.js";
 
 export default async function reservationRoutes(server) {
-  server.get("/", getReservations);
+  server.get("/reservations", getReservations);
   server.get("/reservation/:params", getReservation);
   server.post("/reservation", postReservation);
   server.put("/reservation/:params", updateReservation);

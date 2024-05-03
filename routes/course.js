@@ -7,7 +7,7 @@ import {
 } from "../controllers/courseController.js";
 
 export default async function courseRoutes(server) {
-  server.get("/", getCourses);
+  server.get("/courses", getCourses);
   server.get("/course/:params", getCourse);
   server.post("/course", postCourse);
   server.put("/course/:params", updateCourse);

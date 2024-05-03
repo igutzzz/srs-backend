@@ -7,7 +7,7 @@ import {
 } from "../controllers/teacherController.js";
 
 export default async function teacherRoutes(server) {
-  server.get("/", getTeachers);
+  server.get("/teachers", getTeachers);
   server.get("/teacher/:params", getTeacher);
   server.post("/teacher", postTeacher);
   server.put("/teacher/:params", updateTeacher);
