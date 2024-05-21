@@ -39,5 +39,5 @@ routes.forEach((route) => {
 });
 
 server.listen({
-  port: process.env.PORT || 3200,
+  port: process.env.PORT || 8080,
 });
