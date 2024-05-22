@@ -14,7 +14,19 @@ export async function getUser(request, reply) {
     try {
       const { data, error } = await supabase
         .from("user")
-        .select()
+        .select(`
+          firstName,
+          lastName,
+          userStudent(
+            studentId,
+            course,
+            semester,
+            period
+          ),
+          userTeacher(
+            ra
+          )
+        `)
         .eq("id", request.params.params);
       if (error) {
         throw error;
