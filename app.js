@@ -11,6 +11,7 @@ import reservationRoutes from "./routes/reservation.js";
 import courseRoutes from "./routes/course.js";
 import classroomRoutes from "./routes/classroom.js";
 import classRoutes from "./routes/class.js";
+import loginRoutes from "./routes/login.js";
 
 const server = fastify();
 const corsOptions = {
@@ -33,6 +34,7 @@ const routes = [
   courseRoutes,
   classroomRoutes,
   classRoutes,
+  loginRoutes,
 ];
 routes.forEach((route) => {
   server.register(route);
