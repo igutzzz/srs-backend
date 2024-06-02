@@ -24,7 +24,9 @@ export async function getUser(request, reply) {
             period
           ),
           userTeacher(
+            id,
             ra
+            
           )
         `)
         .eq("id", request.params.params);
