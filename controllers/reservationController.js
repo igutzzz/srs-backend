@@ -24,6 +24,36 @@ export async function getReservation(request, reply) {
       return reply.code(500).send(err);
     }
   }
+
+export async function getReservationByTeacherIdByDate(request, reply) {
+    try {
+      const { data, error } = await supabase
+        .from("reservations")
+        .select(`
+          id,
+          start_time,
+          end_time,
+          classroom(
+            name,
+            floor
+          ),
+          class(
+            name,
+            course(
+              name
+            )
+          )
+        `)
+        .eq("teacherId", request.params.teacherId)
+        .eq("date", request.params.date);
+      if (error) {
+        throw error;
+      }
+      return reply.code(200).send(JSON.stringify(data));
+    } catch (err) {
+      return reply.code(500).send(err);
+    }
+  }
   
   export async function postReservation(request, reply) {
     var response;
