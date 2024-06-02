@@ -10,8 +10,6 @@ import nodemailer from 'nodemailer';
       .eq("email", request.body.email)
       .eq("password", request.body.password);
 
-      console.log(data);
-
       if(data.length > 0) {
         const loginToken = [
           {
