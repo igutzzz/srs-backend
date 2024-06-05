@@ -13,6 +13,7 @@ import classroomRoutes from "./routes/classroom.js";
 import classRoutes from "./routes/class.js";
 
 const server = fastify();
+const port = process.env.PORT || 4000,
 const corsOptions = {
   credentials: true,
   //mudar para a url do sistema
@@ -39,5 +40,5 @@ routes.forEach((route) => {
 });
 
 server.listen({
-  port: process.env.PORT || 8080,
+  port: port
 });
