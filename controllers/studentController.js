@@ -17,14 +17,17 @@ export async function getStudent(request, reply) {
       .select(`
         id,
         studentId,
-        course,
+        course(
+          id,
+          name
+        ),
         semester,
         period,
         user(
           firstName,
           lastName
         )
-      )
+      ) 
       `)
       .eq("userId", request.params.params);
     if (error) {
