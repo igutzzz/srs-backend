@@ -14,8 +14,22 @@ export async function getStudent(request, reply) {
   try {
     const { data, error } = await supabase
       .from("userStudent")
-      .select()
-      .eq("id", request.params.params);
+      .select(`
+        id,
+        studentId,
+        course(
+          id,
+          name
+        ),
+        semester,
+        period,
+        user(
+          firstName,
+          lastName
+        )
+      ) 
+      `)
+      .eq("userId", request.params.params);
     if (error) {
       throw error;
     }

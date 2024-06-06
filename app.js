@@ -11,6 +11,8 @@ import reservationRoutes from "./routes/reservation.js";
 import courseRoutes from "./routes/course.js";
 import classroomRoutes from "./routes/classroom.js";
 import classRoutes from "./routes/class.js";
+import loginRoutes from "./routes/login.js";
+import favoriteClassroomRoutes from "./routes/favoriteClassroom.js";
 
 const server = fastify();
 const port = process.env.PORT || 4000;
@@ -34,6 +36,8 @@ const routes = [
   courseRoutes,
   classroomRoutes,
   classRoutes,
+  loginRoutes,
+  favoriteClassroomRoutes,
 ];
 routes.forEach((route) => {
   server.register(route);

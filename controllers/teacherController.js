@@ -14,8 +14,15 @@ export async function getTeacher(request, reply) {
     try {
       const { data, error } = await supabase
         .from("userTeacher")
-        .select()
-        .eq("id", request.params.params);
+        .select(`
+          id,
+          teacherId,
+          user(
+            firstName,
+            lastName
+          )
+        `)
+        .eq("userId", request.params.params);
       if (error) {
         throw error;
       }
