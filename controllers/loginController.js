@@ -2,34 +2,37 @@ import supabase from "../supabaseConfig.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 export async function login(request, reply) {
-  var response;
   try {
     const { data, error } = await supabase
       .from("user")
       .select("id, userType, password")
       .eq("email", request.body.email);
 
-    bcrypt.compare(
-      request.body.password,
-      data.password,
-      async (err, result) => {
-        if (err) {
-          reply.code(400).send(
-            JSON.stringify({
-              message: "Email e/ou senha estão incorretos!",
-            })
-          );
-          return;
-        }
-        const loginToken = [
-          {
-            id: data[0].id,
-            userType: data[0].userType,
-          },
-        ];
-        reply.code(200).send(JSON.stringify(loginToken));
-      }
-    );
+    const password = data[0]?.password || "";
+    const result = await bcrypt.compare(request.body.password, password);
+
+    if (error || data.length === 0) {
+      return reply.code(400).send(
+        JSON.stringify({
+          message: "Email e/ou senha estão incorretos!",
+        })
+      );
+    }
+
+    if (!result) {
+      return reply.code(400).send(
+        JSON.stringify({
+          message: "Email e/ou senha estão incorretos!",
+        })
+      );
+    }
+
+    const loginToken = {
+      id: data[0].id,
+      userType: data[0].userType,
+    };
+
+    return reply.code(200).send(JSON.stringify(loginToken));
 
     if (error) {
       throw error;
