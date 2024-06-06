@@ -1,55 +1,62 @@
 import supabase from "../supabaseConfig.js";
-import nodemailer from 'nodemailer';
-
-  export async function login(request, reply) {
-    var response;
-    try {
-      const { data, error } = await supabase
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+export async function login(request, reply) {
+  var response;
+  try {
+    const { data, error } = await supabase
       .from("user")
-      .select("id, userType")
-      .eq("email", request.body.email)
-      .eq("password", request.body.password);
+      .select("id, userType, password")
+      .eq("email", request.body.email);
 
-      if(data.length > 0) {
+    bcrypt.compare(
+      request.body.password,
+      data.password,
+      async (err, result) => {
+        if (err) {
+          reply.code(400).send(
+            JSON.stringify({
+              message: "Email e/ou senha estão incorretos!",
+            })
+          );
+          return;
+        }
         const loginToken = [
           {
-              id: data[0].id,
-              userType: data[0].userType
-          }
+            id: data[0].id,
+            userType: data[0].userType,
+          },
         ];
         reply.code(200).send(JSON.stringify(loginToken));
-      } else {
-        reply.code(400).send(JSON.stringify({
-          message: "Email e/ou senha estão incorretos!"
-        }));
       }
+    );
 
-      if (error) {
-        throw error;
-      }
-
-
-    } catch (err) {
-      reply.code(500).send(err);
+    if (error) {
+      throw error;
     }
+  } catch (err) {
+    reply.code(500).send(err);
   }
+}
 
-  export async function forgotPassword(request, reply) {
-    var response;
-    try {
-      const {email} = request.body;
-      const { data, error } = await supabase
-      .from("user").select('id')
+export async function forgotPassword(request, reply) {
+  var response;
+  try {
+    const { email } = request.body;
+    const { data, error } = await supabase
+      .from("user")
+      .select("id")
       .eq("email", email);
 
-      if(data.length > 0) { 
-        reply.code(200).send(JSON.stringify(email));
-      } else {
-        reply.code(400).send(JSON.stringify({
-          message: "Esse email não existe!"
-        }));
-      }
-
+    if (data.length > 0) {
+      reply.code(200).send(JSON.stringify(email));
+    } else {
+      reply.code(400).send(
+        JSON.stringify({
+          message: "Esse email não existe!",
+        })
+      );
+    }
 
     // const transporter = nodemailer.createTransport({
     //   host: 'smtp.gmail.com',
@@ -77,12 +84,10 @@ import nodemailer from 'nodemailer';
     // await transporter.sendMail(mailOptions);
     // return 'Link de redefinição de senha enviado com sucesso!';
 
-      if (error) {
-        throw error;
-      }
-    
-    } catch (err) {
-      reply.code(500).send(err);
+    if (error) {
+      throw error;
     }
+  } catch (err) {
+    reply.code(500).send(err);
   }
-  
+}
