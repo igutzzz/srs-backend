@@ -40,5 +40,6 @@ routes.forEach((route) => {
 });
 
 server.listen({
-  port: port
+  port: port,
+  host: '0.0.0.0'
 });
