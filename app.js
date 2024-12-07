@@ -19,7 +19,9 @@ const port = process.env.PORT || 4000;
 const corsOptions = {
   credentials: true,
   //mudar para a url do sistema
-  origin: /localhost\:5173/,
+  // origin: /localhost\:5173/,
+  origin: /localhost\:3000/,
+  // origin: /localhost\:4000/,
 };
 
 // Config CORS/Body

@@ -5,7 +5,7 @@ export async function login(request, reply) {
   try {
     const { data, error } = await supabase
       .from("user")
-      .select("id, userType, password")
+      .select("id, userType, password, status")
       .eq("email", request.body.email);
 
     const password = data[0]?.password || "";
@@ -30,6 +30,7 @@ export async function login(request, reply) {
     const loginToken = {
       id: data[0].id,
       userType: data[0].userType,
+      status: data[0].status,
     };
 
     return reply.code(200).send(JSON.stringify(loginToken));

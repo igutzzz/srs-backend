@@ -10,12 +10,50 @@ export async function getClasses(request, reply) {
     return reply.code(500).send(err);
   }
 } 
+export async function getCoursesByTeacherId(request, reply) {
+  try {
+    const id = request.params.params;
+    const { data, error } = await supabase.from("class")
+    .select(`
+        courseId
+      `)
+    .eq("teacherId", id);
+
+
+  
+
+    if (error) {
+      throw error;
+    }
+    return reply.code(200).send(JSON.stringify(data));
+  } catch (err) {
+    return reply.code(500).send(err);
+  }
+} 
 
 export async function getClassesByTeacherId(request, reply) {
   try {
     const { data, error } = await supabase
       .from("class")
       .select()
+      .eq("teacherId", request.params.params);
+    if (error) {
+      throw error;
+    }
+    return reply.code(200).send(JSON.stringify(data));
+  } catch (err) {
+    return reply.code(500).send(err);
+  }
+}
+
+export async function getClassesWebByTeacherId(request, reply) {
+  try {
+    const { data, error } = await supabase
+      .from("class")
+      .select(`
+          id,
+          name
+        `)
       .eq("teacherId", request.params.params);
     if (error) {
       throw error;

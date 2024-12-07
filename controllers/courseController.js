@@ -10,6 +10,8 @@ export async function getCourses(request, reply) {
     return reply.code(500).send(err);
   }
 }
+
+
 export async function getCourse(request, reply) {
     try {
       const { data, error } = await supabase

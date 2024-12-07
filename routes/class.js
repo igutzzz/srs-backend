@@ -8,13 +8,15 @@ import {
   getCoursesByClassByTeacherId,
   getClassesByCourseIdByTeacherId,
   getClassesByTeacherIdByWeekDay,
-  getClassesByCourseIdByWeekDay
+  getClassesByCourseIdByWeekDay,
+  getClassesWebByTeacherId
 } from "../controllers/classController.js";
 
 export default async function classRoutes(server) {
   server.get("/classes", getClasses);
   server.get("/class/:params", getClass);
   server.get("/classes/:params", getClassesByTeacherId);
+  server.get("/classesWeb/:params", getClassesWebByTeacherId);
   server.get("/classes/:teacherId/:weekDay", getClassesByTeacherIdByWeekDay);
   server.get("/classes/courses/:params", getCoursesByClassByTeacherId);
   server.get("/classes/course/:courseId/:weekDay", getClassesByCourseIdByWeekDay);

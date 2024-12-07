@@ -10,6 +10,49 @@ export async function getReservations(request, reply) {
     return reply.code(500).send(err);
   }
 }
+
+export async function getAllReservations(request, reply) {
+  try {
+    const { data, error } = await supabase
+      .from("reservations")
+      .select(`
+        id,
+        start_time,
+        end_time,
+        date,
+        userTeacher(
+          id,
+          teacherId,
+          user(
+            firstName,
+            lastName
+          )
+        ),
+        classroom(
+          id,
+          name,
+          floor
+        ),
+        class(
+          id,
+          name,
+          course(
+            name
+          )
+        ),
+        availableForExchange,
+        reason
+      `);
+    if (error) {
+      throw error;
+    }
+    return reply.code(200).send(JSON.stringify(data));
+  } catch (err) {
+    return reply.code(500).send(err);
+  }
+}
+
+
 export async function getReservation(request, reply) {
     try {
       const { data, error } = await supabase
@@ -54,6 +97,7 @@ export async function getReservationsByTeacherIdByDate(request, reply) {
       return reply.code(500).send(err);
     }
   }
+
 
 export async function getReservationsByCourseIdByDate(request, reply) {
     try {
@@ -104,14 +148,28 @@ export async function getReservationsByCourseIdByDate(request, reply) {
     }
   }
   
+  export async function postReservationByTeacherId(request, reply) {
+    try {
+      var id = request.params.params;
+      const { data, error } = await supabase
+        .from("reservations")
+        .insert(request.body)
+        .eq("teacherId", id)
+      if (error) {
+        throw error;
+      }
+      reply.code(200).send(data);
+    } catch (err) {
+      reply.code(400).send(err);
+    }
+  }
   export async function updateReservation(request, reply) {
     try {
       var id = request.params.params;
       const { data, error } = await supabase
         .from("reservations")
         .update(request.body)
-        .eq("id", id)
-        .select();
+        .eq("id", id);
       if (error) {
         throw error;
       }

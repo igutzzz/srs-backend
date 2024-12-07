@@ -1,4 +1,16 @@
 import supabase from "../supabaseConfig.js";
+export async function getClassroomsWeb(request, reply) {
+  try {
+    const { data, error } = await supabase.from("classroom").select();
+    if (error) {
+      throw error;
+    }
+   
+    return reply.code(200).send(JSON.stringify(data));
+  } catch (err) {
+    return reply.code(500).send(err);
+  }
+}
 export async function getClassrooms(request, reply) {
   try {
     const { data, error } = await supabase.from("classroom").select();

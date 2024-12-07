@@ -10,6 +10,30 @@ export async function getTeachers(request, reply) {
     return reply.code(500).send(err);
   }
 }
+export async function getTeacherIdByRa(request, reply) {
+  try {
+    var ra = request.params.params;
+    const { data, error } = await supabase.from("userTeacher")
+    .select(`
+        id,
+        user(
+          firstName,
+          lastName
+        )
+      `)
+    .eq("teacherId", ra);
+
+    if (error) {
+      throw error;
+    }
+    // if (error2) {
+    //   throw error2;
+    // }
+    return reply.code(200).send(JSON.stringify(data[0]));
+  } catch (err) {
+    return reply.code(500).send(err);
+  }
+}
 export async function getTeacher(request, reply) {
     try {
       const { data, error } = await supabase
